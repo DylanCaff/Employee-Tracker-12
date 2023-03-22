@@ -41,11 +41,44 @@ function promptUser() {
                 "View All Roles",
                 "Add Role",
                 "View all Deparments",
-                "Add Department"
+                "Add Department",
+                "Quit",
             ]
         }
     ])
-    .then((answers) => {
-        
-    })
+        .then((answers) => {
+            const { choice } = answers;
+
+            if (choice === "View All Employees") {
+                showDepartments();
+            }
+
+            if (choices === "Add Employee") {
+                addEmployee();
+            }
+
+            if (choices === "Update Employee Role") {
+                updateEmployee();
+            }
+
+            if (choices === "View All Roles") {
+                showRoles();
+            }
+
+            if (choices === "Add Role") {
+                addRole();
+            }
+
+            if (choices === "View All Departments") {
+                showDepartments();
+            }
+
+            if (choices === "Add a department") {
+                addDepartment();
+            }
+
+            if (choices === "No Action") {
+                connection.end()
+            };
+        })
 }
