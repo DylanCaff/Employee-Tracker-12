@@ -58,51 +58,51 @@ function promptUser() {
                 showDepartments();
             }
 
-            if (choices === "Add Employee") {
+            if (choice === "Add Employee") {
                 addEmployee();
             }
 
-            if (choices === "Update Employee Role") {
+            if (choice === "Update Employee Role") {
                 updateEmployee();
             }
 
-            if (choices === "View All Roles") {
+            if (choice === "View All Roles") {
                 showRoles();
             }
 
-            if (choices === "Add Role") {
+            if (choice === "Add Role") {
                 addRole();
             }
 
-            if (choices === "View All Departments") {
+            if (choice === "View All Departments") {
                 showDepartments();
             }
-
-            if (choices === "Add a department") {
+            
+            if (choice === "Add a department") {
                 addDepartment();
             }
 
-            if (choices === "Update an employee manager") {
+            if (choice === "Update an employee manager") {
                 updateManager();
             }
 
-            if (choices === "Delete a department") {
+            if (choice === "Delete a department") {
                 deleteDepartment();
             }
 
-            if (choices === "Delete a role") {
+            if (choice === "Delete a role") {
                 deleteRole();
             }
 
-            if (choices === "Delete an employee") {
+            if (choice === "Delete an employee") {
                 deleteEmployee();
             }
 
-            if (choices === "View department budgets") {
+            if (choice === "View department budgets") {
                 viewBudget();
             }
 
-            if (choices === "Quit") {
+            if (choice === "Quit") {
                 connection.end()
             }
         });
@@ -112,7 +112,7 @@ showDepartments = () => {
     console.log('Showing all departments...\n');
     const sql = `SELECT department.id AS id, department.name AS department FROM department`;
 
-    connection.promise().query(sql, (err, rows) => {
+    connection.query(sql, (err, rows) => {
         if (err) throw err;
         console.table(rows);
         promptUser();
@@ -153,7 +153,7 @@ addEmployee = () => {
 
             const roleSql = `SELECT role.id, role.title FROM role`;
 
-            connection.promise().query(roleSql, (err, data) => {
+            connection.query(roleSql, (err, data) => {
                 if (err) throw err;
 
                 const roles = data.map(({ id, title }) => ({ name: title, value: id }));
@@ -172,7 +172,7 @@ addEmployee = () => {
 
                         const managerSql = `SELECT * FROM employee`;
 
-                        connection.promise().query(managerSql, (err, data) => {
+                        connection.query(managerSql, (err, data) => {
                             if (err) throw err;
 
                             const managers = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
@@ -210,7 +210,7 @@ updateEmployee = () => {
     // get employees from employee table 
     const employeeSql = `SELECT * FROM employee`;
 
-    connection.promise().query(employeeSql, (err, data) => {
+    connection.query(employeeSql, (err, data) => {
         if (err) throw err;
 
         const employees = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
@@ -230,7 +230,7 @@ updateEmployee = () => {
 
                 const roleSql = `SELECT * FROM role`;
 
-                connection.promise().query(roleSql, (err, data) => {
+                connection.query(roleSql, (err, data) => {
                     if (err) throw err;
 
                     const roles = data.map(({ id, title }) => ({ name: title, value: id }));
@@ -273,7 +273,7 @@ showRoles = () => {
             FROM role
             INNER JOIN department ON role.department_id = department.id`;
 
-    connection.promise().query(sql, (err, rows) => {
+    connection.query(sql, (err, rows) => {
         if (err) throw err;
         console.table(rows);
         promptUser();
@@ -312,7 +312,7 @@ addDepartment = () => {
 updateManager = () => {
     const employeeSql = `SELECT * FROM employee`;
 
-    connection.promise().query(employeeSql, (err, data) => {
+    connection.query(employeeSql, (err, data) => {
         if (err) throw err;
 
         const employees = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
@@ -332,7 +332,7 @@ updateManager = () => {
 
                 const managerSql = `SELECT * FROM employee`;
 
-                connection.promise().query(managerSql, (err, data) => {
+                connection.query(managerSql, (err, data) => {
                     if (err) throw err;
 
                     const managers = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
@@ -370,7 +370,7 @@ updateManager = () => {
 deleteDepartment = () => {
     const deptSql = `SELECT * FROM department`;
 
-    connection.promise().query(deptSql, (err, data) => {
+    connection.query(deptSql, (err, data) => {
         if (err) throw err;
 
         const dept = data.map(({ name, id }) => ({ name: name, value: id }));
@@ -400,7 +400,7 @@ deleteDepartment = () => {
 deleteRole = () => {
     const roleSql = `SELECT * FROM role`;
 
-    connection.promise().query(roleSql, (err, data) => {
+    connection.query(roleSql, (err, data) => {
         if (err) throw err;
 
         const role = data.map(({ title, id }) => ({ name: title, value: id }));
@@ -430,7 +430,7 @@ deleteRole = () => {
 deleteEmployee = () => {
     const employeeSql = `SELECT * FROM employee`;
 
-    connection.promise().query(employeeSql, (err, data) => {
+    connection.query(employeeSql, (err, data) => {
         if (err) throw err;
 
         const employees = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
@@ -467,7 +467,7 @@ viewBudget = () => {
                  FROM  role  
                  JOIN department ON role.department_id = department.id GROUP BY  department_id`;
 
-    connection.promise().query(sql, (err, rows) => {
+    connection.query(sql, (err, rows) => {
         if (err) throw err;
         console.table(rows);
 
