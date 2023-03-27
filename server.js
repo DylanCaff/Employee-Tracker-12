@@ -77,7 +77,7 @@ function promptUser() {
             if (choice === "View All Departments") {
                 showDepartments();
             }
-            
+
             if (choice === "Add a department") {
                 addDepartment();
             }
@@ -269,9 +269,10 @@ updateEmployee = () => {
 showRoles = () => {
     console.log('Showing all roles...\n');
 
-    const sql = `SELECT role.id, role.title, department.salary AS department
-            FROM role
-            INNER JOIN department ON role.department_id = department.id`;
+    const sql = `SELECT role.id, role.title, role.salary, department.name AS department
+    FROM role
+    INNER JOIN department ON role.department_id = department.id;
+    `;
 
     connection.query(sql, (err, rows) => {
         if (err) throw err;
