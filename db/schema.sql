@@ -4,7 +4,7 @@ USE employee_db;
 
 CREATE TABLE department (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role (
@@ -31,4 +31,4 @@ CREATE TABLE employee (
     REFERENCES employee(id)
     ON DELETE SET NULL 
     ON UPDATE CASCADE
-)
+);

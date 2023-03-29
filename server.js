@@ -55,7 +55,7 @@ function promptUser() {
             const { choice } = answers;
 
             if (choice === "View All Employees") {
-                showDepartments();
+                showEmployees();
             }
 
             if (choice === "Add Employee") {
@@ -108,9 +108,19 @@ function promptUser() {
         });
 };
 
-showDepartments = () => {
-    console.log('Showing all departments...\n');
-    const sql = `SELECT department.id AS id, department.name AS department FROM department`;
+showEmployees = () => {
+    console.log('Showing all employees...\n'); 
+    const sql = `SELECT employee.id, 
+    employee.first_name, 
+    employee.last_name, 
+    role.title, 
+    department.name AS department,
+    role.salary, 
+    CONCAT (manager.first_name, " ", manager.last_name) AS manager
+FROM employee
+    LEFT JOIN role ON employee.role_id = role.id
+    LEFT JOIN department ON role.department_id = department.id
+    LEFT JOIN employee manager ON employee.manager_id = manager.id`;
 
     connection.query(sql, (err, rows) => {
         if (err) throw err;
@@ -163,7 +173,7 @@ addEmployee = () => {
                         type: 'list',
                         name: 'role',
                         message: "What is the employee's role?",
-                        choices: roles
+                        choices: 'roles'
                     }
                 ])
                     .then(roleChoice => {
@@ -183,7 +193,7 @@ addEmployee = () => {
                                     type: 'list',
                                     name: 'manager',
                                     message: "Who is the employee's manager?",
-                                    choices: managers
+                                    choices: 'managers'
                                 }
                             ])
                                 .then(managerChoice => {
@@ -220,7 +230,7 @@ updateEmployee = () => {
                 type: 'list',
                 name: 'name',
                 message: "Which employee would you like to update?",
-                choices: employees
+                choices: 'employees'
             }
         ])
             .then(empChoice => {
@@ -240,7 +250,7 @@ updateEmployee = () => {
                             type: 'list',
                             name: 'role',
                             message: "What is the employee's new role?",
-                            choices: roles
+                            choices: 'roles'
                         }
                     ])
                         .then(roleChoice => {
@@ -272,6 +282,7 @@ showRoles = () => {
     const sql = `SELECT role.id, role.title, role.salary, department.name AS department
     FROM role
     INNER JOIN department ON role.department_id = department.id;
+    
     `;
 
     connection.query(sql, (err, rows) => {
