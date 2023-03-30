@@ -43,7 +43,6 @@ function promptUser() {
                 "Add Department",
                 "Update Employee Managers",
                 "View Employees by Manager",
-                "View Employees by Department",
                 "Delete Departments, Roles, or Employees",
                 "View Department Budgets",
                 "Quit",
@@ -93,9 +92,6 @@ function promptUser() {
                 viewEmployeeByManager();
             }
 
-            if (choice === "View Employees by Department") {
-                viewEmployeeByDepartment();
-            }
 
             if (choice === "View Department Budgets") {
                 viewBudget();
